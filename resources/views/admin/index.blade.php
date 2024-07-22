@@ -80,6 +80,21 @@
                 </ul>
             </div>
             <h3>Toy List</h3>
+
+            <div class="w-50">
+
+                <form action="/search" class="d-flex justify-content-center align-items-center gap-4" method="GET">
+                    {{-- @csrf --}}
+                    <input type="text" class="form-control" placeholder="Search for a toy ..." name="search"
+                        value="{{ $search ?? '' }}">
+                    <button type="submit" class="btn btn-outline-dark">Search</button>
+                </form>
+                @if(empty($toys))
+                    <p style="text-align: center; font-weight:bold; color:brown;">No results found.</p>
+                @endif
+
+            </div>
+            
             <table class="table table-hover table-striped text-center">
                 <thead class="table-dark">
                     <tr>
