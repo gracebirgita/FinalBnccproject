@@ -139,13 +139,24 @@ class AppController extends Controller
     {
 
         $toys = Toy::where('name', 'like', "%" . $request->search . "%")->get();
+        $categories = Category::all();
 
-        if ($toys->isEmpty()) {
-        // Jika tidak ada hasil, kirim pesan 'no result' ke view
-            return view('title', ['message' => 'No results found', 'toys'=>[]]);
+        if(Auth::user()->email == 'admin@gmail.com'){
+            if ($toys->isEmpty()) {
+
+                return view('admin.index', ['message' => 'No results found', 'toys' => [], 'categories' => $categories]);
+            } else {
+
+                return view('admin.index', ['toys' => $toys, 'categories' => $categories]);
+            }
         } else {
-            // Jika ada hasil, kirim data toys ke view
-            return view('title', ['toys' => $toys]);
+            if ($toys->isEmpty()) {
+
+                return view('title', ['message' => 'No results found', 'toys' => [], 'categories' => $categories]);
+            } else {
+
+                return view('title', ['toys' => $toys, 'categories' => $categories]);
+            }
         }
     }
 
