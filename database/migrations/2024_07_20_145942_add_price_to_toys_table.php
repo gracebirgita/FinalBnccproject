@@ -12,10 +12,12 @@ return new class extends Migration
     public function up()
     {
         Schema::table('toys', function (Blueprint $table) {
-            $table->decimal('price', 10, 2)->after('stock');
+            if(!Schema::hasColumn('toys', 'price')) {
+                $table->decimal('price', 10, 2)->after('stock');
+            }
         });
     }
-    
+
     public function down()
     {
         Schema::table('toys', function (Blueprint $table) {

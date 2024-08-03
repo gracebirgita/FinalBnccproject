@@ -29,9 +29,10 @@ class LoginController extends Controller
     // protected $redirectTo = '/home';
     protected function redirectTo()
     {
-        if (Auth::user()->email == 'admin@gmail.com') {
+        if (Auth::check() && Auth::user()->email == 'admin@gmail.com') {
             return '/admindashboard';
-        } else {
+        }
+        else {
             return '/';
         }
     }

@@ -24,14 +24,14 @@ class ToyController extends Controller
             'stock' => 'required|integer',
             'price' => 'required|numeric',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-           
+
         ]);
-    
+
         $imagePath = null;
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('toys', 'public');
         }
-    
+
         Toy::create([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -39,9 +39,9 @@ class ToyController extends Controller
             'stock' => $request->stock,
             'price' => $request->price,
             'image' => $imagePath,
-            
+
         ]);
-    
+
         return redirect()->route('admin.home')->with('success', 'Toy added successfully!');
     }
 
@@ -61,7 +61,7 @@ class ToyController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'price' => 'required|numeric',
         ]);
-    
+
         $imagePath = $toy->image;
         if ($request->hasFile('image')) {
             if ($imagePath) {
@@ -69,7 +69,7 @@ class ToyController extends Controller
             }
             $imagePath = $request->file('image')->store('toys', 'public');
         }
-    
+
         $toy->update([
             'name' => $request->name,
             'category_id' => $request->category_id,
@@ -77,9 +77,9 @@ class ToyController extends Controller
             'stock' => $request->stock,
             'price' => $request->price,
             'image' => $imagePath,
-           
+
         ]);
-    
+
         return redirect()->route('admin.home')->with('success', 'Toy updated successfully!');
     }
 
@@ -92,17 +92,28 @@ class ToyController extends Controller
         return redirect()->route('admin.home')->with('success', 'Toy deleted successfully!');
     }
 
+    public function delete($id)
+    {
+        // Find the toy by ID
+        $toy = Toy::findOrFail($id);
+
+        // Delete the toy
+        $toy->delete();
+
+        // Redirect back with a success message
+        return redirect()->back()->with('success', 'Toy deleted successfully.');
+    }
+
     public function detail(Toy $toy)
     {
         return view('toys.detail', compact('toy'));
     }
-    
+
 
     public function index()
     {
-    $toys = Toy::paginate(10); // Adjust the number to how many toys you want per page
-
-    return view('admin.index', compact('toys'));
+        $toys = Toy::paginate(10); // Adjust the number to how many toys you want per page
+        return view('admin.index', compact('toys'));
     }
 
 }

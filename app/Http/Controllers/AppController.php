@@ -51,9 +51,10 @@ class AppController extends Controller
             'email' => $request->email,
             'password' => $request->password
         ];
+
         if (Auth::attempt($infologin)) {
             if (Auth::user()->email == 'admin@gmail.com') {
-                return redirect('/admindashboard')->with('success', 'Login berhasil');
+                return redirect()->route('admin.home')->with('success', 'Login berhasil');
             }
             else {
                 return redirect()->route('home')->with('success', 'Login berhasil');
@@ -141,7 +142,7 @@ class AppController extends Controller
         $toys = Toy::where('name', 'like', "%" . $request->search . "%")->get();
         $categories = Category::all();
 
-        if(Auth::user()->email == 'admin@gmail.com'){
+        if(Auth::check() && Auth::user()->email == 'admin@gmail.com'){
             if ($toys->isEmpty()) {
 
                 return view('admin.index', ['message' => 'No results found', 'toys' => [], 'categories' => $categories]);

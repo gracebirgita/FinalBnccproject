@@ -30,7 +30,7 @@ class AuthController extends Controller
             'password' => $request->password
         ];
         if (Auth::attempt($infologin)) {
-            if (Auth::user()->email == 'admin@gmail.com') {
+            if (Auth::user()->role=='admin') {
                 return redirect('/admindashboard')->with('success', 'Login berhasil');
             }
             else {
