@@ -1,17 +1,22 @@
 {{-- @php
-    $email = Session::get('email');
+    $email = Session::get('role');
     if ($email == null) {
         header('Location: /login');
         exit;
     }
-    if($email != 'admin@gmail.com'){
-        header('Location: /dashboard');
+    if($email != 'admin'){
+        header('Location: /header2');
         exit;
     }
-    // if (!Session::get('email')) {
-    //     return redirect('/login')->with('error', 'You must be logged in to access this page.');
-    // }
+    if (!Session::get('role')) {
+        return redirect('/login')->with('error', 'You must be logged in to access this page.');
+    }
 @endphp --}}
+{{-- @if (!Session::get('email'))
+    <script>
+        window.location = "/login";
+    </script>
+@endif --}}
 {{-- <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -61,7 +66,6 @@
 
     <div class="container p-4" style="min-height: 100vh">
         @yield('content')
-
         <div class="d-flex justify-content-crnter align-items-start flex-column gap-4">
             <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
                 href="{{ route('toy.create') }}">
@@ -94,7 +98,7 @@
                 @endif
 
             </div>
-            
+
             <table class="table table-hover table-striped text-center">
                 <thead class="table-dark">
                     <tr>
@@ -113,8 +117,8 @@
                     <tr style="vertical-align: middle">
                         <th scope="row">{{ $index + 1 }}</th>
                         <td>
-                            <img src="{{ $toy->image ? asset('storage/' . $toy->image) : 'https://placehold.co/100/purple/white?text=Toys' }}" 
-                                 alt="{{ $toy->name }}" style="max-width: 100px; max-height: 100px;">
+                            <img src="{{ $toy->image ? asset('storage/' . $toy->image) : 'https://placehold.co/100/purple/white?text=Toys' }}"
+                                alt="{{ $toy->name }}" style="max-width: 100px; max-height: 100px;">
                         </td>
                         <td>
                             <a class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" href="{{ route('toy.detail', $toy) }}">
@@ -123,7 +127,7 @@
                         </td>
                         <td>{{ $toy->category->name }}</td>
                         <td>{{ $toy->stock }}</td>
-                        <td>{{ $toy->price }}</td>
+                        <td>Rp{{ number_format($toy->price, 2, ',', '.') }}</td>
                         <td>
                             <div class="d-flex justify-content-center align-items-center gap-4">
                                 <a class="btn btn-outline-primary" href="{{ route('toy.edit', $toy) }}">

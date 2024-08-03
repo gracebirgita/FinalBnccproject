@@ -1,11 +1,14 @@
 <?php
+// app/Http/Controllers/AdminController.php
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Toy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class HomeController extends Controller
+class AdminController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -18,20 +21,14 @@ class HomeController extends Controller
     }
 
     /**
-     * Show the application dashboard.
+     * Show the admin dashboard.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function index()
     {
-        $toys=Toy::all();
-        return view('title', ['toys'=>$toys]);
+        $categories = Category::all();
+        $toys = Toy::all();
+        return view('admin.index', compact('categories', 'toys'));
     }
-
-    public function adminHome()
-    {
-        return view('admin.home');  // Admin home view
-    }
-
-
 }

@@ -8,6 +8,7 @@ use App\Models\Toy;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,8 +20,11 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('admin123'),
+            'role' => 'admin',
+
         ]);
 
         Category::create([
@@ -46,13 +50,14 @@ class DatabaseSeeder extends Seeder
         $category_id = Category::pluck('id');
         $category_id = $category_id->toArray();
 
-        for($i=0; $i<15; $i++){
+        for($i=0; $i<24; $i++){
             $randomIndex = array_rand($category_id);
             Toy::create([
                 'category_id'=>$category_id[$randomIndex],
                 'name' => fake()->word(),
                 'description' =>fake()->paragraph(5),
-                'stock'=> fake()->numberBetween(20, 2000)
+                'stock'=> fake()->numberBetween(20, 2000),
+                'price'=> fake()->randomFloat(2, 10000, 500000)
             ]);
         }
 

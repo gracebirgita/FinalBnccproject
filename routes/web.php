@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ToyController;
 use App\Http\Controllers\AppController;
 use App\Http\Controllers\AuthController;
@@ -9,6 +10,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\CheckAdmin;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\AdminController;
+
 
 // Route::get('/', function () {
 //     return view('title');
@@ -22,9 +25,9 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 });
 
-Route::get('/admindashboard', function () {
-    return view('admin.index');
-});
+// Route::get('/admindashboard', function () {
+//     return view('admin.index');
+// });
 
 Route::get('/welcome', function () {
     return view('welcome');
@@ -57,14 +60,18 @@ Route::controller(AppController::class)->group(function(){
 //     //     Route::post('/register', 'userRegister')->name('user.register');
 //     // });
 
-//     // Route::middleware('auth')->group(function() {
-//     //     Route::post('/logout', 'user_logout')->name('user.logout');
+    Route::middleware('auth')->group(function() {
+        Route::post('/logout', 'user_logout')->name('user.logout'); });
 
-//     //     // Route::middleware('admin')->group(function() {
-            Route::get('/admindashboard', 'admin')->name('admin.home');
+//     //     // Route::iddleware('admin')->group(function() {
+
+    Route::get('/admindashboard', [AdminController::class, 'index'])->name('admin.home');
+
 //     //     // });
 //     // });
 });
+
+Route::get('/index', [HomeController::class, 'index'])->name('home.index');
 
 Route::prefix('toy')->controller(ToyController::class)->group(function(){
     Route::get('create','create')->name('toy.create');
@@ -83,7 +90,7 @@ Route::get('admin/filter/{category}', [AppController::class, 'filter'])->name('a
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/cart', [CartController::class, 'showCart'])->name('cart.show');
 Route::post('/cart/{toy}', [CartController::class, 'addToCart'])->name('cart.add');
