@@ -127,7 +127,7 @@
                         </td>
                         <td>{{ $toy->category->name }}</td>
                         <td>{{ $toy->stock }}</td>
-                        <td>Rp{{ number_format($toy->price, 2, ',', '.') }}</td>
+                        <td>Rp{{ number_format($toy->price, 0, ',', '.') }}</td>
                         <td>
                             <div class="d-flex justify-content-center align-items-center gap-4">
                                 <a class="btn btn-outline-primary" href="{{ route('toy.edit', $toy) }}">
