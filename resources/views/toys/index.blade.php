@@ -26,7 +26,7 @@
                         <span class="badge text-bg-primary">{{ $toy->category->name }}</span>
                         <h5 class="card-title">{{ $toy->name }}</h5>
                         <p class="card-text">{{ Str::limit($toy->description, 150, '...') }}</p>
-                        <p class="fw-bold">Price: Rp{{ number_format($toy->price, 2, ',', '.') }}</p>
+                        <p class="fw-bold">Price: Rp{{ number_format($toy->price, 0, ',', '.') }}</p>
                         <p class="text-semibold text-danger">Stock : {{ $toy->stock }}</p>
                         <div class="d-flex w-100 justify-content-around align-items-center">
                             <a class="link-dark link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover"
